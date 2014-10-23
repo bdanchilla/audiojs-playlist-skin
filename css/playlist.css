@@ -78,7 +78,12 @@ p.pause:after{
 #playlist-container{
     width: 675px;
     background-color: #f9f9f9;
-    padding: 3em;
+    padding: 2em 3em;
+}
+
+#playlist-info-container{
+    font-style: italic;
+    margin-bottom: 1em;
 }
 
 ol { padding: 0px; margin: 0px; list-style: decimal-leading-zero inside; color: #aaa; width: 460px; border-top: 1px solid #aaa; font-size: 0.9em; }

@@ -16,10 +16,19 @@
     volume_controls += '<div style="clear:both;"></div>';
 
     var volume = 0.5,
-        number_of_tracks = $("#playlist li").size(),
+        $playlist = $("#playlist"),
+        number_of_tracks = $playlist.find("li").size(),
         MAX_ERROR_SKIP_ATTEMPTS = 10,
-        error_skips = 0;
+        error_skips = 0,
+        durations = [],
+        total_duration = 0;
 
+    var playlist_info = '';
+    playlist_info += '<div id="playlist-info-container">';
+    playlist_info += '<span id="playlist-info-number-tracks">' + number_of_tracks + '</span> tracks';
+    playlist_info += ' (<span id="playlist-info-duration"></span>)';
+    playlist_info += '</div>';
+    
     var a = audiojs.createAll({
           // Setup the player to autoplay the next track
             trackEnded: function() {
@@ -37,6 +46,8 @@
     {
         //only add track selection if more than one song in playlist
         $audiojs.before( track_selection_controls );
+        //only show playlist info if more than one song
+        $playlist.before( playlist_info );
     }
 
     $audiojs.after( volume_controls );
