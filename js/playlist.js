@@ -26,9 +26,9 @@
     var playlist_info = '';
     playlist_info += '<div id="playlist-info-container">';
     playlist_info += '<span id="playlist-info-number-tracks">' + number_of_tracks + '</span> tracks';
-    playlist_info += ' (<span id="playlist-info-duration"></span>)';
+    playlist_info += ', <span id="playlist-info-duration"></span> playing time';
     playlist_info += '</div>';
-    
+
     var a = audiojs.createAll({
           // Setup the player to autoplay the next track
             trackEnded: function() {
@@ -48,14 +48,53 @@
         $audiojs.before( track_selection_controls );
         //only show playlist info if more than one song
         $playlist.before( playlist_info );
+
+        $("#playlist li").each(function(index, value){
+            $(value).removeClass('playing');
+        });
+
+        var links = $playlist.find("li a");
+        var current_track = 0;
+
+        findTrackDuration( current_track );      
+
+    }
+
+    function findTrackDuration( track )
+    {
+        if( track > number_of_tracks)
+        {
+            loadFirstTrack();
+            console.log(durations);
+            return false;
+        }
+
+        var aud2 = new Audio();       
+        aud2.src = $(links[track]).data("src");
+        aud2.preload = "metadataonly";
+
+        (function(aud){
+            aud.addEventListener('loadedmetadata', function(){
+                durations[current_track] = $(this)[0].duration;
+                ++current_track;
+//console.log($(this)[0].duration);
+                //important to set the current audio src to the same as we will process next
+                aud.src = $(links[current_track]).data("src");
+  
+                findTrackDuration( current_track );
+            });
+        })(aud2);
     }
 
     $audiojs.after( volume_controls );
 
-    // Load in the first track
-    first = $('ol a').attr('data-src');
-    $('ol li').first().addClass('playing');
-    audio.load(first);
+    function loadFirstTrack()
+    {
+      // Load in the first track
+        first = $('ol a').attr('data-src');
+        $('ol li').first().addClass('playing');
+        audio.load(first);
+    }
 
     //add custom event listeners
     audiojs.events.addListener(audio.source, 'error', function(e){ 
@@ -68,7 +107,6 @@
             nextTrack();    
         }
     });
-
 
     //audio support
     function changeVolume( el )

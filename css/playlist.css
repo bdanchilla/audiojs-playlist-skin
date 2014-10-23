@@ -86,6 +86,10 @@ p.pause:after{
     margin-bottom: 1em;
 }
 
+#playlist-info-container span{
+  font-weight: bold;
+}
+
 ol { padding: 0px; margin: 0px; list-style: decimal-leading-zero inside; color: #aaa; width: 460px; border-top: 1px solid #aaa; font-size: 0.9em; }
 ol li { position: relative; margin: 0px; padding: 9px 2px 10px; border-bottom: 1px solid #aaa; cursor: pointer; }
 ol li a { display: block; text-indent: -3.3ex; padding: 0px 0px 0px 20px; }
