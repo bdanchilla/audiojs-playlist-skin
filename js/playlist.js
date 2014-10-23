@@ -51,6 +51,9 @@
         if( error_skips < MAX_ERROR_SKIP_ATTEMPTS )
         {
             error_skips++;
+            //remove error message
+            $audiojs.addClass( "loading");
+            $audiojs.removeClass( "error");            
             nextTrack();    
         }
     });
