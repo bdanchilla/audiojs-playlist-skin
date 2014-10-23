@@ -5,6 +5,8 @@ audiojs-playlist-skin
 
 Full <a href="http://www.briandanchilla.com/interests/music/spotlight/songs" target="_blank">demo</a>
 
+![Demo Screenshot][https://raw.githubusercontent.com/bdanchilla/audiojs-playlist-skin/master/screenshot.jpg]
+
 Basic usage is in index.html:
 
 ```html
