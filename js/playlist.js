@@ -15,32 +15,46 @@
     volume_controls += '</div>';
     volume_controls += '<div style="clear:both;"></div>';
 
-    var volume = 0.5;
-    var number_of_tracks = $("#playlist li").size();
+    var volume = 0.5,
+        number_of_tracks = $("#playlist li").size(),
+        MAX_ERROR_SKIP_ATTEMPTS = 10,
+        error_skips = 0;
 
-    // Setup the player to autoplay the next track
     var a = audiojs.createAll({
-        trackEnded: function() {
-            var next = $('ol li.playing').next();
-            if (!next.length) next = $('ol li').first();
-            next.addClass('playing').siblings().removeClass('playing');
-            audio.load($('a', next).attr('data-src'));
-            audio.play();
-        }
-    });
-
-    $.audiojs = $(".audiojs");
+          // Setup the player to autoplay the next track
+            trackEnded: function() {
+                var next = $('ol li.playing').next();
+                if (!next.length) next = $('ol li').first();
+                next.addClass('playing').siblings().removeClass('playing');
+                audio.load($('a', next).attr('data-src'));
+                audio.play();
+            }
+        }),
+        $audiojs = $(".audiojs"),
+        audio = a[0];
 
     if( number_of_tracks > 1 )
     {
         //only add track selection if more than one song in playlist
-        $.audiojs.before( track_selection_controls );
+        $audiojs.before( track_selection_controls );
     }
 
-    $.audiojs.after( volume_controls );
+    $audiojs.after( volume_controls );
 
     // Load in the first track
-    var audio = a[0];
+    first = $('ol a').attr('data-src');
+    $('ol li').first().addClass('playing');
+    audio.load(first);
+
+    //add custom event listeners
+    audiojs.events.addListener(audio.source, 'error', function(e){ 
+        if( error_skips < MAX_ERROR_SKIP_ATTEMPTS )
+        {
+            error_skips++;
+            nextTrack();    
+        }
+    });
+
 
     //audio support
     function changeVolume( el )
@@ -53,10 +67,6 @@
         }
     }
     //end audio support
-
-    first = $('ol a').attr('data-src');
-    $('ol li').first().addClass('playing');
-    audio.load(first);
 
     //track selection
     function nextTrack()
