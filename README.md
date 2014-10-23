@@ -1,4 +1,4 @@
 audiojs-playlist-skin
 =====================
 
-audio.js powered audio playlist, with volume, track and skipto capabilities
+<a href="https://github.com/kolber/audiojs">audio.js</a> powered audio playlist, with volume, track and skipto capabilities
