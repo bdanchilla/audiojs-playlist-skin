@@ -1,19 +1,21 @@
 (function($, audiojs) {
-    var controls_before = '';
-    controls_before += '<div id="extended-controls-pre">';
-    controls_before += '<span id="prev-track" class="glyphicon glyphicon-chevron-left"></span>';
-    controls_before += '<span id="next-track" class="glyphicon glyphicon-chevron-right"></span>';
-    controls_before += '</div>';
+    var track_selection_controls = '';
+    track_selection_controls += '<div id="extended-controls-pre">';
+    track_selection_controls += '<span id="prev-track" class="glyphicon glyphicon-chevron-left"></span>';
+    track_selection_controls += '<span id="next-track" class="glyphicon glyphicon-chevron-right"></span>';
+    track_selection_controls += '</div>';
     
-    var controls_after = '';
-    controls_after += '<div id="extended-controls-post">';
-    controls_after += '<div id="volume-container">';
-    controls_after += '<span class="glyphicon glyphicon-volume-down"> </span>';
-    controls_after += '<input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.5" />';
-    controls_after += '<span class="glyphicon glyphicon-volume-up"> </span>';
-    controls_after += '</div>';
-    controls_after += '</div>';
-    controls_after += '<div style="clear:both;"></div>';
+    var volume_controls = '';
+    volume_controls += '<div id="extended-controls-post">';
+    volume_controls += '<div id="volume-container">';
+    volume_controls += '<span class="glyphicon glyphicon-volume-down"> </span>';
+    volume_controls += '<input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.5" />';
+    volume_controls += '<span class="glyphicon glyphicon-volume-up"> </span>';
+    volume_controls += '</div>';
+    volume_controls += '</div>';
+    volume_controls += '<div style="clear:both;"></div>';
+
+    var volume = 0.5;
 
     // Setup the player to autoplay the next track
     var a = audiojs.createAll({
@@ -27,13 +29,18 @@
     });
 
     $.audiojs = $(".audiojs");
-    $.audiojs.before( controls_before );
-    $.audiojs.after( controls_after );
+
+    if( $("#playlist li").size() > 1 )
+    {
+        //only add track selection if more than one song in playlist
+        $.audiojs.before( track_selection_controls );
+    }
+    $.audiojs.after( volume_controls );
 
     // Load in the first track
     var audio = a[0];
-    var volume = 0.5;
 
+    //audio support
     function changeVolume( v )
     {
         if( v != volume )
@@ -43,7 +50,6 @@
         }
     }
 
-    //audio support
     $("#volume-slider").change(function(evt){
         var v = $(this).val() * 0.01;
         changeVolume( v );
