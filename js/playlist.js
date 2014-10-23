@@ -20,7 +20,6 @@
         number_of_tracks = $playlist.find("li").size(),
         MAX_ERROR_SKIP_ATTEMPTS = 10,
         error_skips = 0,
-        durations = [],
         total_duration = 0;
 
     var playlist_info = '';
@@ -65,7 +64,8 @@
         if( track > number_of_tracks)
         {
             loadFirstTrack();
-            console.log(durations);
+            var nice_duration = formatDuration(total_duration);
+            $("#playlist-info-duration").html(nice_duration);
             return false;
         }
 
@@ -75,9 +75,13 @@
 
         (function(aud){
             aud.addEventListener('loadedmetadata', function(){
-                durations[current_track] = $(this)[0].duration;
+                var raw_duration = $(this)[0].duration;
+                total_duration += raw_duration;
+                var nice_duration = formatDuration( raw_duration );
+
+                $playlist.find("li:eq(" + track + ") span.duration").html( nice_duration );
                 ++current_track;
-//console.log($(this)[0].duration);
+
                 //important to set the current audio src to the same as we will process next
                 aud.src = $(links[current_track]).data("src");
   
@@ -87,6 +91,24 @@
     }
 
     $audiojs.after( volume_controls );
+
+    function formatDuration( raw )
+    {
+        if (raw == '') {
+            return;
+        }
+
+        var seconds = Math.round( raw ) % 60;
+        var minutes = Math.floor( raw / 60.0 ) % 60;
+        var hours = Math.floor( raw / 3600.0 );
+        
+        if( hours == 0)
+        {
+            return minutes + ":" + seconds;
+        }
+
+        return hours + ":" + minutes + ":" + seconds;
+    }
 
     function loadFirstTrack()
     {
