@@ -16,6 +16,7 @@
     volume_controls += '<div style="clear:both;"></div>';
 
     var volume = 0.5;
+    var number_of_tracks = $("#playlist li").size();
 
     // Setup the player to autoplay the next track
     var a = audiojs.createAll({
@@ -30,76 +31,91 @@
 
     $.audiojs = $(".audiojs");
 
-    if( $("#playlist li").size() > 1 )
+    if( number_of_tracks > 1 )
     {
         //only add track selection if more than one song in playlist
         $.audiojs.before( track_selection_controls );
     }
+
     $.audiojs.after( volume_controls );
 
     // Load in the first track
     var audio = a[0];
 
     //audio support
-    function changeVolume( v )
+    function changeVolume( el )
     {
+        var v = el.val();
         if( v != volume )
         {
             volume = v;
             audio.setVolume(v);
         }
     }
-
-    $("#volume-slider").change(function(evt){
-        var v = $(this).val() * 0.01;
-        changeVolume( v );
-    });
-
-    $("#volume-slider").mousemove(function(evt) {
-        var v = $(this).val();
-        changeVolume(v);
-    });
     //end audio support
 
     first = $('ol a').attr('data-src');
     $('ol li').first().addClass('playing');
     audio.load(first);
 
-    // Load in a track on click
-    $('ol li').click(function(e) {
+    //track selection
+    function nextTrack()
+    {
+        if( number_of_tracks > 1 )
+        {        
+            var next = $('li.playing').next();
+            if (!next.length) next = $('ol li').first();
+            next.click();
+        }
+    }
+
+    function prevTrack()
+    {
+        if( number_of_tracks > 1 )
+        {      
+            var prev = $('li.playing').prev();
+            if (!prev.length) prev = $('ol li').last();
+            prev.click();  
+        }
+    }
+    //end track selection
+
+    //=== event handling ===//
+
+    //mouse events
+    
+    $("body").on("click", "#volume-slider", function(evt){
+        changeVolume( $(this) );
+    });
+
+    $("body").on("mousemove", "#volume-slider", function(evt) {
+        changeVolume( $(this) );
+    });
+
+    $("body").on("click", '#playlist li', function(e) {
+        // Load in a track on playlist click
         e.preventDefault();
         $(this).addClass('playing').siblings().removeClass('playing');
         audio.load($('a', this).attr('data-src'));
         audio.play();
     });
 
-    $("#prev-track").click(function(e){
-        var prev = $('li.playing').prev();
-        if (!prev.length) prev = $('ol li').last();
-        prev.click();
+    $("body").on("click", "#prev-track", function(e){
+        prevTrack();
     });
 
-    $("#next-track").click(function(e) {
-        var next = $('li.playing').next();
-        if (!next.length) next = $('ol li').first();
-        next.click();
+    $("body").on("click", "#next-track", function(e) {
+        nextTrack();
     });
 
-    // Keyboard shortcuts
+    //keyboard events
     $(document).keydown(function(e) {
         var unicode = e.charCode ? e.charCode : e.keyCode;
-        // right arrow
-        if (unicode == 39) {
-            var next = $('li.playing').next();
-            if (!next.length) next = $('ol li').first();
-            next.click();
-            // back arrow
-        } else if (unicode == 37) {
-            var prev = $('li.playing').prev();
-            if (!prev.length) prev = $('ol li').last();
-            prev.click();
-            // spacebar
-        } else if (unicode == 32) {
+        if (unicode == 39) { // right arrow
+            nextTrack();
+        } else if (unicode == 37) { //back arrow
+            prevTrack();
+        } else if (unicode == 32) { // spacebar
             audio.playPause();
         }
     })
