@@ -3,7 +3,7 @@ audiojs-playlist-skin
 
 <a href="https://github.com/kolber/audiojs">audio.js</a> powered audio playlist, with volume, track and skipto capabilities
 
-Full demo <a href="http://www.briandanchilla.com/interests/music/spotlight/songs">Demo</a>
+Full <a href="http://www.briandanchilla.com/interests/music/spotlight/songs" target="_blank">demo</a>
 
 Basic usage is in index.html:
 
