@@ -92,10 +92,15 @@ p.pause:after{
 
 ol { padding: 0px; margin: 0px; list-style: decimal-leading-zero inside; color: #aaa; width: 460px; border-top: 1px solid #aaa; font-size: 0.9em; }
 ol li { position: relative; margin: 0px; padding: 9px 2px 10px; border-bottom: 1px solid #aaa; cursor: pointer; }
-ol li a { display: block; text-indent: -3.3ex; padding: 0px 0px 0px 20px; }
+ol li a { display: inline; text-indent: -3.3ex; padding: 0px 0px 0px 20px; }
 li.playing { color: #999; text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3); }
 li.playing a { color: #777; font-weight: bold; font-size: 1.2em;}
 li.playing:before { font-family: "Glyphicons Halflings"; content: "\e002"; vertical-align: center; width: 14px; height: 14px; padding: 0px; line-height: 14px; margin: 0px; position: absolute; left: -28px; top: 13px; color: #999; font-size: 13px; text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2); }
+span.track-duration{
+  display: block;
+  float: right;
+  margin: 0 2em;
+}
 
 /* below is all for the ugly default range element */
 /* this enhancement is modfied from http://codepen.io/aronwoost/pen/nlyrf */

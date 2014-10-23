@@ -79,7 +79,7 @@
                 total_duration += raw_duration;
                 var nice_duration = formatDuration( raw_duration );
 
-                $playlist.find("li:eq(" + track + ") span.duration").html( nice_duration );
+                $playlist.find("li:eq(" + track + ") span.track-duration").html( nice_duration );
                 ++current_track;
 
                 //important to set the current audio src to the same as we will process next
@@ -102,6 +102,9 @@
         var minutes = Math.floor( raw / 60.0 ) % 60;
         var hours = Math.floor( raw / 3600.0 );
         
+        if( seconds < 10){ seconds = "0" + seconds; }
+        if( minutes < 10){ minutes = "0" + minutes; }
+
         if( hours == 0)
         {
             return minutes + ":" + seconds;
