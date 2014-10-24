@@ -133,7 +133,7 @@
         }
     });
 
-    //audio support
+    //volume support
     function changeVolume( el )
     {
         var v = el.val();
@@ -143,7 +143,34 @@
             audio.setVolume(v);
         }
     }
-    //end audio support
+
+    $("body").on("mousewheel DOMMouseScroll", ".audiojs, #extended-controls-post, #extended-controls-pre", function(event){
+        event.preventDefault();
+
+        if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+            // scroll up
+            volume = parseFloat(volume) + 0.05;
+            if( volume > 1.0 )
+            {
+                volume = 1.0;
+            }else{
+                audio.setVolume( volume );     
+                $("#volume-slider").val( volume );           
+            }
+        }
+        else {
+            // scroll down
+            volume = parseFloat(volume) - 0.05;
+            if( volume < 0.0 )
+            {
+                volume = 0.0;
+            }else{
+                audio.setVolume( volume );                
+                $("#volume-slider").val( volume );           
+            }
+        }
+    });
+    //end volume support
 
     //track selection
     function nextTrack()
