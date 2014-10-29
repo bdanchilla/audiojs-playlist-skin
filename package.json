@@ -1,0 +1,19 @@
+{
+  "name": "audiojs-playlist-skin",
+  "version": "1.0.0",
+  "description": "playlist skin for audio.js",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bdanchilla/audiojs-playlist-skin.git"
+  },
+  "author": "Brian Danchilla",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bdanchilla/audiojs-playlist-skin/issues"
+  },
+  "homepage": "https://github.com/bdanchilla/audiojs-playlist-skin"
+}
