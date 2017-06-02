@@ -17,7 +17,7 @@
 
     var volume = 0.5,
         $playlist = $("#playlist"),
-        number_of_tracks = $playlist.find("li").size(),
+        number_of_tracks = $playlist.find("li").length,
         MAX_ERROR_SKIP_ATTEMPTS = 10,
         error_skips = 0,
         total_duration = 0;
